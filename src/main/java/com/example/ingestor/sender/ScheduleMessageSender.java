@@ -5,29 +5,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import com.example.ingestor.model.Schedule;
+import com.protobuf.schedule.ScheduleProto;;
 
 @Component
 public class ScheduleMessageSender {
 
-//	@Autowired
-//	private KafkaTemplate<String, String> kafkaTemplate;
-
 	@Autowired
-	private KafkaTemplate<String, Schedule> scheduleMesssageKafkaTemplate;
+	private KafkaTemplate<String, ScheduleProto.Schedule> scheduleMesssageKafkaTemplate;
 
 	@Value(value = "${message.topic.name}")
 	private String topicName;
 
-//	public void produceScheduleEvent(String msg) {
-//
-//		kafkaTemplate.send(topicName, 0, "", msg);
-//
-//	}
-
-	public void produceScheduleMessage(Schedule schMsg) {
-
-		scheduleMesssageKafkaTemplate.send(topicName, 1, "key-1", schMsg);
+	public void sendToKafka(ScheduleProto.Schedule schedule) {		
+		scheduleMesssageKafkaTemplate.send(topicName,schedule);
 
 	}
 
