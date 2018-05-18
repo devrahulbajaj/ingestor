@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
 
+import com.couchbase.client.java.repository.annotation.Field;
+
 
 /**
  * Objects of this class represents Schedules. The main objective of this class have actual schedules data.
@@ -23,17 +25,30 @@ public class Schedule implements Serializable
 	private static final long serialVersionUID = -8737622339112459927L;
 
 	@Id
-	@NotNull
+	@Field
 	private int id;
 	
-    private Long version;      
-    private String flightNumber;
-    private       List<LegInformation> legs;
+	@Field
+    private Long version;
+
+	@Field
+	private String flightNumber;
+	
+	@Field
+	private       List<LegInformation> legs;
 
     private   boolean   hosted;                //NOTE: Schedule-based, not carrier-based
 
     public Schedule(){}
     
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
     public long getVersion() {
         return version == null ? -1 : version;
     }
